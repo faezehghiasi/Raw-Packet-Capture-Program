@@ -23,13 +23,13 @@ This program creates a raw socket using the PF_PACKET domain and SOCK_RAW type t
 * Root or superuser privileges (required for creating raw sockets).
 
 ## Building the Code
-You can use the provided Makefile to build the server and client programs.
+You can use the provided Makefile to build the program.
 
 **1-** Open a terminal.
 
 **2-** Navigate to the directory containing the Makefile.
 
-**3-** Run the following command to build both the server and client:
+**3-** Run the following command to build the program :
 
 ```bash
 make
