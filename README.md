@@ -20,7 +20,7 @@ This program creates a raw socket using the PF_PACKET domain and SOCK_RAW type t
 
 * C compiler (e.g., gcc).
 
-*Root or superuser privileges (required for creating raw sockets).
+* Root or superuser privileges (required for creating raw sockets).
 
 ## Building the Code
 You can use the provided Makefile to build the server and client programs.
