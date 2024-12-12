@@ -1,43 +1,92 @@
-# Raw-Packet-Capture-Program
-This repository contains a simple C program that creates a raw socket to capture and display network packets at the data link layer (Layer 2). It can identify and print details about IP and ARP packets, as well as display the type of packet (outgoing, broadcast, multicast, or incoming).
+---
 
-## Overview
-This program creates a raw socket using the PF_PACKET domain and SOCK_RAW type to capture all Ethernet frames passing through the network interface. It then decodes and displays basic information about the captured packets.
+# Raw Packet Capture Program
 
-## Features
+## 📋 Overview
+This repository contains a simple C program that creates a raw socket to capture and display network packets at the data link layer (Layer 2). It identifies and prints details about IP and ARP packets, while displaying the type of packet (outgoing, broadcast, multicast, or incoming).
 
-+ Creates a raw socket to capture all Ethernet frames.
+---
 
-+ Identifies and prints details about IP and ARP packets.
+## 🏷️ Tags
+`Networking`, `Packet Capture`, `C Programming`, `Raw Sockets`, `Linux`, `Networking Tools`, `Packet Sniffer`, `Data Link Layer`
 
-+ Displays packet type (outgoing, broadcast, multicast, or incoming).
+## 📝 Description
+The program uses **raw sockets** in the **PF_PACKET** domain with **SOCK_RAW** type to capture Ethernet frames passing through the network interface. It decodes and prints essential information about the captured packets.
 
-+ Prints raw packet data in hexadecimal format.
+---
 
-## Requirements
+## 🚀 Features
 
-* Linux operating system.
+- **Create Raw Socket:** Captures all Ethernet frames passing through the interface.
+- **Packet Identification:** Detects and prints details about IP and ARP packets.
+- **Packet Type Display:** Shows whether packets are outgoing, broadcast, multicast, or incoming.
+- **Hexadecimal Dump:** Displays raw packet data in hexadecimal format for detailed analysis.
 
-* C compiler (e.g., gcc).
+---
 
-* Root or superuser privileges (required for creating raw sockets).
+## ⚙️ Requirements
 
-## Building the Code
-You can use the provided Makefile to build the program.
+- **Linux Operating System:** Required for raw socket creation.
+- **C Compiler:** Recommended compiler is **gcc**.
+- **Root Privileges:** Superuser permissions are needed for creating raw sockets.
 
-**1-** Open a terminal.
+---
 
-**2-** Navigate to the directory containing the Makefile.
+## 🔧 Building the Code
+Use the provided **Makefile** to compile the program.
 
-**3-** Run the following command to build the program :
+1. **Open a terminal.**
+2. **Navigate** to the project directory containing the Makefile.
+3. **Run** the following command to build the program:
 
 ```bash
 make
 ```
-## Usage
-To run the program, execute the following command with root privileges:
 
-``` bash
+---
+
+## 💻 Usage
+Run the compiled program with **root privileges**:
+
+```bash
 sudo ./packet_capture
 ```
-The program will start capturing packets and printing their details to the console. Press Ctrl+C to stop the program.
+
+The program will begin capturing packets and printing their details to the console. Use **Ctrl+C** to stop the program.
+
+---
+
+## 📚 Example Output
+
+```plaintext
+[+] Capturing packets...
+
+Packet Type: Incoming
+Source MAC: 00:1A:2B:3C:4D:5E
+Destination MAC: FF:FF:FF:FF:FF:FF
+Protocol: ARP
+Payload (Hex): 00 01 08 00 06 04 00 01...
+
+Packet Type: Outgoing
+Source MAC: 00:1A:2B:3C:4D:5E
+Destination MAC: 12:34:56:78:9A:BC
+Protocol: IP
+Payload (Hex): 45 00 00 34 12 34 40 00...
+```
+
+---
+
+## ⚠️ Important Notes
+
+- Use this program **only** for educational or authorized network analysis.
+- Ensure network interface permissions are configured properly.
+- The program supports basic packet types and can be extended for deeper analysis.
+
+---
+
+## ⭐ Support the Project
+If you found this project helpful, consider giving it a **Star** ⭐ on GitHub! Contributions and suggestions are always welcome.
+
+**[➡ Visit the Project Repository](#)**
+
+*Disclaimer: This project is for educational purposes only.*
