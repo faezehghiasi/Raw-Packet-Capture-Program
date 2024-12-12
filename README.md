@@ -7,14 +7,6 @@ This repository contains a simple C program that creates a raw socket to capture
 
 ---
 
-## 🏷️ Tags
-`Networking`, `Packet Capture`, `C Programming`, `Raw Sockets`, `Linux`, `Networking Tools`, `Packet Sniffer`, `Data Link Layer`
-
-## 📝 Description
-The program uses **raw sockets** in the **PF_PACKET** domain with **SOCK_RAW** type to capture Ethernet frames passing through the network interface. It decodes and prints essential information about the captured packets.
-
----
-
 ## 🚀 Features
 
 - **Create Raw Socket:** Captures all Ethernet frames passing through the interface.
@@ -87,6 +79,3 @@ Payload (Hex): 45 00 00 34 12 34 40 00...
 ## ⭐ Support the Project
 If you found this project helpful, consider giving it a **Star** ⭐ on GitHub! Contributions and suggestions are always welcome.
 
-**[➡ Visit the Project Repository](#)**
-
-*Disclaimer: This project is for educational purposes only.*
