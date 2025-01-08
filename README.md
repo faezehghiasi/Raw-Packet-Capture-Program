@@ -2,12 +2,12 @@
 
 # Raw Packet Capture Program
 
-## 📋 Overview
+## Overview
 This repository contains a simple C program that creates a raw socket to capture and display network packets at the data link layer (Layer 2). It identifies and prints details about IP and ARP packets, while displaying the type of packet (outgoing, broadcast, multicast, or incoming).
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Create Raw Socket:** Captures all Ethernet frames passing through the interface.
 - **Packet Identification:** Detects and prints details about IP and ARP packets.
@@ -16,7 +16,7 @@ This repository contains a simple C program that creates a raw socket to capture
 
 ---
 
-## ⚙️ Requirements
+## Requirements
 
 - **Linux Operating System:** Required for raw socket creation.
 - **C Compiler:** Recommended compiler is **gcc**.
@@ -24,7 +24,7 @@ This repository contains a simple C program that creates a raw socket to capture
 
 ---
 
-## 🔧 Building the Code
+## Building the Code
 Use the provided **Makefile** to compile the program.
 
 1. **Open a terminal.**
@@ -37,7 +37,7 @@ make
 
 ---
 
-## 💻 Usage
+## Usage
 Run the compiled program with **root privileges**:
 
 ```bash
@@ -48,7 +48,7 @@ The program will begin capturing packets and printing their details to the conso
 
 ---
 
-## 📚 Example Output
+## Example Output
 
 ```plaintext
 [+] Capturing packets...
@@ -68,14 +68,9 @@ Payload (Hex): 45 00 00 34 12 34 40 00...
 
 ---
 
-## ⚠️ Important Notes
+## Important Notes
 
 - Use this program **only** for educational or authorized network analysis.
 - Ensure network interface permissions are configured properly.
 - The program supports basic packet types and can be extended for deeper analysis.
-
----
-
-## ⭐ Support the Project
-If you found this project helpful, consider giving it a **Star** ⭐ on GitHub! Contributions and suggestions are always welcome.
 
