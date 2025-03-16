@@ -21,18 +21,19 @@ jobs:
 
       - name: Install Dependencies (Linux)
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y gcc make cppcheck
+        run: sudo apt-get update && sudo apt-get install -y build-essential gcc make cppcheck
 
       - name: Install Dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew list gcc || brew install gcc
-          brew list make || brew install make
-          brew list cppcheck || brew install cppcheck
+          brew install cppcheck || echo "cppcheck already installed"
+          brew install make || echo "make already installed"
 
       - name: Install Dependencies (Windows)
         if: runner.os == 'Windows'
-        run: choco install mingw make
+        run: |
+          choco install mingw -y
+          choco install make -y
 
       - name: Compile Project (Linux/macOS)
         if: runner.os != 'Windows'
