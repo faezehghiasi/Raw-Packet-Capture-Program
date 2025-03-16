@@ -63,9 +63,6 @@ Source Port: 53
 Destination Port: 443
 ```
 
-## 📡 Future Enhancements
-- **Protocol filtering** (e.g., only TCP)  
-- **Live network traffic visualization**  
-- **Detection of malicious traffic**  
+  
 
 
