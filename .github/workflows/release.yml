@@ -54,11 +54,13 @@ jobs:
 
       - name: Rename Binaries
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
+          OS_NAME=$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')
+          if [[ "$OS_NAME" == "windows" ]]; then
             mv packet_sniffer.exe packet_sniffer-${{ github.event.release.tag_name }}-windows.exe
           else
-            mv packet_sniffer packet_sniffer-${{ github.event.release.tag_name }}-${{ runner.os | toLower }}
+            mv packet_sniffer packet_sniffer-${{ github.event.release.tag_name }}-$OS_NAME
           fi
+        shell: bash
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
