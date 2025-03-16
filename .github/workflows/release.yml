@@ -37,11 +37,11 @@ jobs:
 
       - name: Compile Project (Linux/macOS)
         if: runner.os != 'Windows'
-        run: gcc -o packet_sniffer packet_sniffer.c -Wall -Wextra -Werror
+        run: gcc -o packet_sniffer dllsniffer-pro.c -Wall -Wextra -Werror
 
       - name: Compile Project (Windows)
         if: runner.os == 'Windows'
-        run: gcc -o packet_sniffer.exe packet_sniffer.c -Wall -Wextra -Werror
+        run: gcc -o packet_sniffer.exe dllsniffer-pro.c -Wall -Wextra -Werror
 
       - name: Run Static Analysis (Linux/macOS)
         if: runner.os != 'Windows'
