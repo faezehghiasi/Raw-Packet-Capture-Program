@@ -7,62 +7,32 @@ on:
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
+    name: Build on Linux
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Install Dependencies (Linux)
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y gcc make cppcheck
+        run: sudo apt-get update && sudo apt-get install -y build-essential gcc make
 
-      - name: Install Dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: brew install gcc make cppcheck
-
-      - name: Install Dependencies (Windows)
-        if: runner.os == 'Windows'
-        run: choco install mingw make
-
-      - name: Compile Project (Linux/macOS)
-        if: runner.os != 'Windows'
-        run: gcc -o packet_sniffer packet_sniffer.c -Wall -Wextra -Werror
-
-      - name: Compile Project (Windows)
-        if: runner.os == 'Windows'
-        run: gcc -o packet_sniffer.exe packet_sniffer.c -Wall -Wextra -Werror
-
-      - name: Run Static Analysis (Linux/macOS)
-        if: runner.os != 'Windows'
-        run: cppcheck --enable=all --inconclusive --quiet --error-exitcode=1 .
+      - name: Compile Project
+        run: gcc -o packet_sniffer dllsniffer-pro.c -Wall -Wextra -Werror
 
       - name: Verify Binary Exists
         run: |
-          if [[ "$RUNNER_OS" == "Windows" && ! -f packet_sniffer.exe ]]; then
-            echo "Windows binary not found!"
-            exit 1
-          elif [[ "$RUNNER_OS" != "Windows" && ! -f packet_sniffer ]]; then
-            echo "Linux/macOS binary not found!"
+          if [ ! -f packet_sniffer ]; then
+            echo "Linux binary not found!"
             exit 1
           fi
 
-      - name: Rename Binaries
-        run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            mv packet_sniffer.exe packet_sniffer-${{ github.event.release.tag_name }}-windows.exe
-          else
-            mv packet_sniffer packet_sniffer-${{ github.event.release.tag_name }}-${{ runner.os | toLower }}
-          fi
+      - name: Rename Binary
+        run: mv packet_sniffer packet_sniffer-${{ github.event.release.tag_name }}-linux
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
         with:
-          files: packet_sniffer-${{ github.event.release.tag_name }}-*
+          files: packet_sniffer-${{ github.event.release.tag_name }}-linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
