@@ -9,6 +9,7 @@ jobs:
   build:
     name: Build on ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
@@ -24,7 +25,10 @@ jobs:
 
       - name: Install Dependencies (macOS)
         if: runner.os == 'macOS'
-        run: brew install gcc make cppcheck
+        run: |
+          brew list gcc || brew install gcc
+          brew list make || brew install make
+          brew list cppcheck || brew install cppcheck
 
       - name: Install Dependencies (Windows)
         if: runner.os == 'Windows'
