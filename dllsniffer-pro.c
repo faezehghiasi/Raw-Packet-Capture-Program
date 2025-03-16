@@ -29,7 +29,9 @@ void save_packet_to_pcap(pcap_dumper_t *dumper, const char *buffer, int length, 
     pcap_dump((u_char *)dumper, &header, (const u_char *)buffer);
 }
 
-int main(int argc, char *argv[]) {
+int main() {
+
+
     int sockfd;
     sockfd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
     if (sockfd < 0) {
