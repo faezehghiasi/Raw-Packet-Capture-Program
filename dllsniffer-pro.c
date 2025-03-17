@@ -14,26 +14,21 @@
 #include <netinet/udp.h>
 #include <pcap.h>
 
-// Function to print MAC address
-void print_mac_address(unsigned char *mac) {
+void print_mac(unsigned char *mac) {
     printf("%02X:%02X:%02X:%02X:%02X:%02X", 
            mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 }
 
-// Function to save packets using libpcap
-void save_packet_to_pcap(pcap_dumper_t *dumper, const char *buffer, int length, struct timeval ts) {
+void save_packet(pcap_dumper_t *dumper, const char *data, int len, struct timeval ts) {
     struct pcap_pkthdr header;
     header.ts = ts;
-    header.caplen = length;
-    header.len = length;
-    pcap_dump((u_char *)dumper, &header, (const u_char *)buffer);
+    header.caplen = len;
+    header.len = len;
+    pcap_dump((u_char *)dumper, &header, (const u_char *)data);
 }
 
 int main() {
-
-
-    int sockfd;
-    sockfd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+    int sockfd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
     if (sockfd < 0) {
         perror("Socket creation failed");
         exit(EXIT_FAILURE);
@@ -41,12 +36,11 @@ int main() {
     printf("[+] Capturing packets...\n\n");
 
     char buffer[2048];
-    struct sockaddr_ll phyaddr;
-    socklen_t addr_len = sizeof(struct sockaddr_ll);
+    struct sockaddr_ll addr;
+    socklen_t addr_len = sizeof(addr);
 
-    // Open a pcap file to save packets
     pcap_t *pcap = pcap_open_dead(DLT_EN10MB, 65535);
-    pcap_dumper_t *dumper = pcap_dump_open(pcap, "captured.pcap");
+    pcap_dumper_t *dumper = pcap_dump_open(pcap, "capture.pcap");
     if (!dumper) {
         perror("Failed to open pcap dump file");
         close(sockfd);
@@ -54,18 +48,18 @@ int main() {
     }
 
     while (1) {
-        int numbytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr *)&phyaddr, &addr_len);
-        if (numbytes < 0) {
+        int bytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr *)&addr, &addr_len);
+        if (bytes < 0) {
             perror("Recvfrom failed");
             close(sockfd);
             exit(EXIT_FAILURE);
         }
 
         struct ethhdr *eth = (struct ethhdr *)buffer;
-        unsigned short protocol = ntohs(eth->h_proto);
+        unsigned short proto = ntohs(eth->h_proto);
 
         printf("Packet Type: ");
-        switch (phyaddr.sll_pkttype) {
+        switch (addr.sll_pkttype) {
             case PACKET_OUTGOING: printf("Outgoing\n"); break;
             case PACKET_BROADCAST: printf("Broadcast\n"); break;
             case PACKET_MULTICAST: printf("Multicast\n"); break;
@@ -74,11 +68,11 @@ int main() {
         }
 
         printf("Source MAC: ");
-        print_mac_address(eth->h_source);
+        print_mac(eth->h_source);
         printf("\nDestination MAC: ");
-        print_mac_address(eth->h_dest);
+        print_mac(eth->h_dest);
 
-        if (protocol == ETH_P_IP) {
+        if (proto == ETH_P_IP) {
             printf("\nProtocol: IP\n");
 
             struct iphdr *ip = (struct iphdr *)(buffer + sizeof(struct ethhdr));
@@ -104,20 +98,18 @@ int main() {
             } else {
                 printf("Protocol: Unknown (0x%02X)\n", ip->protocol);
             }
-
-        } else if (protocol == ETH_P_ARP) {
+        } else if (proto == ETH_P_ARP) {
             printf("\nProtocol: ARP\n");
         } else {
-            printf("\nProtocol: Unknown (0x%04X)\n", protocol);
+            printf("\nProtocol: Unknown (0x%04X)\n", proto);
         }
 
-        // Save packet to pcap file
         struct timeval ts;
         gettimeofday(&ts, NULL);
-        save_packet_to_pcap(dumper, buffer, numbytes, ts);
+        save_packet(dumper, buffer, bytes, ts);
 
         printf("\nPayload (Hex): ");
-        for (int i = 0; i < numbytes; i++) {
+        for (int i = 0; i < bytes; i++) {
             printf("%02X ", (unsigned char)buffer[i]);
         }
         printf("\n\n");

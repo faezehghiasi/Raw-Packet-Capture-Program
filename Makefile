@@ -1,10 +1,10 @@
-# نام فایل اجرایی
+
 TARGET = packet_sniffer
 
-# فایل‌های سورس
-SRCS = packet_sniffer.c
 
-# کتابخانه‌های مورد نیاز
+SRCS = dllsniffer-pro.c
+
+
 LIBS = -lpcap
 
 CC = gcc
